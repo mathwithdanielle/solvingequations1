@@ -1,0 +1,700 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Integer & Like Terms Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Lexend:wght@400;500;600&display=swap">
+<style>
+/* Layout: one centered practice card, tabs on top, problem → answer → keypad stacked */
+:root{
+  --bg:#eaf4fb;
+  --surface:#ffffff;
+  --ink:#1d3445;
+  --muted:#5b7487;
+  --line:#cfe1ee;
+  --blue:#3a8fc7;
+  --blue-soft:#d9ecf8;
+  --green:#3fa37a;
+  --green-soft:#ddf3e8;
+  --red:#c9564a;
+  --red-soft:#fbe7e4;
+  --key:#f3f8fc;
+  --display:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+  --body:"Lexend","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1c26;--surface:#162733;--ink:#e3eef6;--muted:#9bb2c3;--line:#284152;
+  --blue:#6ab6e8;--blue-soft:#1d3a4f;--green:#5cc999;--green-soft:#173a2c;
+  --red:#ee8a7f;--red-soft:#3f2221;--key:#1d3240;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1c26;--surface:#162733;--ink:#e3eef6;--muted:#9bb2c3;--line:#284152;
+  --blue:#6ab6e8;--blue-soft:#1d3a4f;--green:#5cc999;--green-soft:#173a2c;
+  --red:#ee8a7f;--red-soft:#3f2221;--key:#1d3240;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:560px;margin:0 auto;padding-inline:16px;padding-block:24px 40px;display:flex;flex-direction:column;gap:18px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--display);font-weight:600;font-size:1.7rem;margin:0;text-wrap:balance}
+h1 span{color:var(--blue)}
+.stats{display:flex;gap:14px;font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.stats b{color:var(--ink)}
+
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:5px}
+.home{display:flex;flex-direction:column;gap:14px}
+.home-intro{margin:0;color:var(--muted)}
+.choice{font:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:22px 20px;border-radius:18px;border:2px solid var(--line);background:var(--surface);color:var(--ink);transition:border-color .15s,transform .15s}
+.choice:hover{border-color:var(--blue);transform:translateY(-2px)}
+.choice.green:hover{border-color:var(--green)}
+.choice:focus-visible,.back:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.sample{font-family:var(--display);font-weight:500;font-size:1.9rem;color:var(--blue);font-variant-numeric:tabular-nums}
+.choice.green .sample{color:var(--green)}
+.choice-title{font-weight:600;font-size:1.15rem}
+.choice-sub{color:var(--muted);font-size:.9rem}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.back{font:500 .95rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 14px;cursor:pointer}
+.mode-name{font-weight:600;color:var(--muted);font-size:.95rem}
+.keypad.five{grid-template-columns:repeat(5,1fr);gap:7px}
+.key.small{font-family:var(--body);font-size:.85rem;font-weight:500}
+.eq{display:flex;flex-direction:column;gap:14px}
+.eq-problem{font-size:clamp(1.5rem,7vw,2.2rem)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.steps li{display:flex;justify-content:space-between;align-items:center;gap:10px;font:500 1.25rem var(--display);background:var(--green-soft);border-radius:10px;padding:8px 14px;font-variant-numeric:tabular-nums;overflow-x:auto;white-space:nowrap}
+.steps li::after{content:"✓";color:var(--green);font-weight:600}
+.steps li.final{border:2px solid var(--green)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-size:.82em;line-height:1.15;margin:0 .12em}
+.frac .num{border-bottom:2px solid currentColor;padding:0 .25em .08em}
+.frac .den{padding:.08em .25em 0}
+.eq-problem,.steps li,.worked li,.preview{line-height:1.3}
+.steps li{padding-block:10px}
+.preview{margin:-6px 0 0;text-align:center;font:500 1.3rem var(--display);color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 2fr;gap:8px}
+.btn.ghost{background:var(--blue-soft);color:var(--ink)}
+.linkbtn{font:inherit;font-size:.88rem;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;align-self:center;padding:4px}
+.worked{background:var(--blue-soft);border-radius:12px;padding:12px 16px;font-size:.95rem}
+.worked ol{margin:6px 0 0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px}
+.worked li{font:500 1.1rem var(--display)}
+.tab{font:inherit;font-weight:500;font-size:.95rem;border:0;border-radius:10px;padding:10px 8px;background:transparent;color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--blue-soft);color:var(--ink)}
+.tab:focus-visible,.key:focus-visible,.btn:focus-visible,#answer:focus-visible,#eqInput:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 18px;display:flex;flex-direction:column;gap:16px}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.85rem;color:var(--muted)}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.now{background:var(--blue)}
+.dot.ok{background:var(--green)}
+.dot.miss{background:var(--red)}
+.prompt{font-size:.9rem;color:var(--muted);text-align:center;margin:0}
+.problem{font-family:var(--display);font-weight:500;font-size:clamp(2rem,9vw,2.8rem);text-align:center;letter-spacing:.02em;font-variant-numeric:tabular-nums;margin:0;white-space:nowrap;overflow-x:auto}
+#answer,#eqInput{font:500 1.6rem var(--display);text-align:center;width:100%;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)}
+#answer.right,#eqInput.right{border-color:var(--green);background:var(--green-soft)}
+#answer.wrong,#eqInput.wrong{border-color:var(--red);background:var(--red-soft)}
+.feedback{min-height:3em;text-align:center;font-size:.95rem;margin:0}
+.feedback.ok{color:var(--green)}
+.feedback.no{color:var(--red)}
+.feedback.hint{color:var(--blue)}
+.feedback .why{display:block;color:var(--muted);font-size:.88rem;margin-top:2px}
+
+.keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.key{font:500 1.3rem var(--display);border:1px solid var(--line);background:var(--key);color:var(--ink);border-radius:12px;padding:12px 0;cursor:pointer;touch-action:manipulation}
+.key:active{transform:translateY(1px)}
+.key.op{color:var(--blue)}
+.key[hidden]{display:none}
+.btn{font:600 1rem var(--body);border:0;border-radius:12px;padding:14px;cursor:pointer;width:100%}
+.btn.check{background:var(--blue);color:#fff}
+.btn.next{background:var(--green);color:#fff}
+:root[data-theme="dark"] .btn.check,:root[data-theme="dark"] .btn.next{color:#0f1c26}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.check,:root:not([data-theme="light"]) .btn.next{color:#0f1c26}}
+.tip{font-size:.85rem;color:var(--muted);background:var(--green-soft);border-radius:12px;padding:10px 14px;margin:0}
+.tip b{color:var(--ink)}
+
+.done{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.done .big{font-family:var(--display);font-size:3rem;margin:0;color:var(--green);font-variant-numeric:tabular-nums}
+.done p{margin:0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Math <span>Practice</span></h1>
+    <div class="stats"><span>Streak <b id="streak">0</b></span><span>Best <b id="best">0</b></span></div>
+  </header>
+
+  <section class="home" id="home">
+    <p class="home-intro">Pick a practice to start.</p>
+    <button class="choice" id="go-neg" type="button">
+      <span class="sample">−3 − (−6)</span>
+      <span class="choice-title">Negative Numbers</span>
+      <span class="choice-sub">Adding and subtracting with negatives</span>
+    </button>
+    <button class="choice green" id="go-clt" type="button">
+      <span class="sample">4x − 7 − 1</span>
+      <span class="choice-title">Combine Like Terms</span>
+      <span class="choice-sub">Combine the numbers, keep the x-term</span>
+    </button>
+    <button class="choice" id="go-eq" type="button">
+      <span class="sample">3x + 4 = 6(x − 2)</span>
+      <span class="choice-title">Solving Equations</span>
+      <span class="choice-sub">Multi-step, one line at a time</span>
+    </button>
+  </section>
+
+  <div class="bar" id="bar" hidden>
+    <button class="back" id="back" type="button">← All practices</button>
+    <span class="mode-name" id="modeName"></span>
+  </div>
+
+  <section class="card" id="card" hidden>
+    <div class="done" id="done" hidden>
+      <p class="big" id="score">0/10</p>
+      <p id="scoreMsg"></p>
+      <p style="color:var(--muted);font-size:.9rem" id="doneNote">First-try correct answers count toward the score.</p>
+      <button class="btn next" id="again" type="button">New round</button>
+    </div>
+    <div id="play" style="display:flex;flex-direction:column;gap:16px">
+    <div class="meta"><span id="roundLabel">Problem 1 of 10</span><div class="dots" id="dots"></div></div>
+    <p class="prompt" id="prompt">Solve.</p>
+    <p class="problem" id="problem">8 − 15</p>
+    <input id="answer" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer" placeholder="?">
+    <p class="feedback" id="feedback" aria-live="polite"></p>
+    <div class="keypad" id="keypad"></div>
+    <button class="btn check" id="action">Check</button>
+    <p class="tip" id="tip"></p>
+    </div>
+    <div id="eqPlay" class="eq" hidden>
+      <div class="meta"><span id="eqLabel">Problem 1 of 6</span><div class="dots" id="eqDots"></div></div>
+      <p class="prompt">Solve for x. Write each step on its own line.</p>
+      <p class="problem eq-problem" id="eqProblem"></p>
+      <ol class="steps" id="eqSteps"></ol>
+      <input id="eqInput" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your next line" placeholder="Type your next line">
+      <p class="preview" id="eqPreview" hidden></p>
+      <p class="feedback" id="eqFeedback" aria-live="polite"></p>
+      <div class="keypad five" id="eqKeypad"></div>
+      <div class="row2"><button class="btn ghost" id="eqHint" type="button">Hint</button><button class="btn check" id="eqAction" type="button">Check step</button></div>
+      <button class="linkbtn" id="eqShow" type="button">Show a worked solution</button>
+      <div class="worked" id="eqWorked" hidden></div>
+    </div>
+  </section>
+</div>
+
+<script>
+let ROUND = 10;
+const M = "−"; // minus sign
+const $ = id => document.getElementById(id);
+const rnd = (a,b) => a + Math.floor(Math.random()*(b-a+1));
+const pick = arr => { const t = arr.reduce((s,x)=>s+x.w,0); let r = Math.random()*t; for (const x of arr){ if((r-=x.w)<0) return x; } return arr[0]; };
+const n = v => v < 0 ? M + Math.abs(v) : String(v);
+const pn = v => v < 0 ? "(" + M + Math.abs(v) + ")" : String(v);
+
+/* ---------- Negative numbers (heavier on minus formats) ---------- */
+const negTypes = [
+  // 80%: subtraction signs and negative first terms
+  {w:14, make(){ const a=rnd(1,12), b=a+rnd(2,12); return {q:`${a} ${M} ${b}`, ans:a-b, why:""}; }},
+  {w:24, make(){ const a=rnd(1,15), b=rnd(1,15); return {q:`${M}${a} ${M} ${b}`, ans:-a-b, why:""}; }},
+  {w:10, make(){ const a=rnd(1,15), b=rnd(1,12); return {q:`${a} ${M} ${pn(-b)}`, ans:a+b, why:`Minus a negative means plus: ${a} + ${b} = ${a+b}.`}; }},
+  {w:20, make(){ const a=rnd(2,15), b=rnd(1,15); return {q:`${M}${a} ${M} ${pn(-b)}`, ans:-a+b, why:`Minus a negative means plus: ${M}${a} + ${b} = ${n(b-a)}.`}; }},
+  {w:12, make(){ const a=rnd(2,15), b=rnd(1,15); return {q:`${M}${a} + ${b}`, ans:-a+b, why:""}; }},
+  // 20%: plus a negative
+  {w:15, make(){ const a=rnd(1,15), b=rnd(1,12); return {q:`${M}${a} + ${pn(-b)}`, ans:-a-b, why:""}; }},
+  {w:5, make(){ const a=rnd(1,12), b=rnd(2,15); return {q:`${a} + ${pn(-b)}`, ans:a-b, why:""}; }},
+];
+
+/* ---------- Combine like terms: one x-term + two constants, mostly negatives ---------- */
+const xt = c => (c===1?"":c===-1?M:n(c)) + "x";
+const xtMid = c => (c<0 ? `${M} ` : "+ ") + (Math.abs(c)===1?"":Math.abs(c)) + "x";
+const cltTypes = [
+  {w:6, make(){ const c=rnd(2,9),a=rnd(1,12),b=rnd(1,12); return {q:`${xt(c)} ${M} ${a} ${M} ${b}`, c, k:-a-b, why:`${M}${a} ${M} ${b} = ${n(-a-b)}`}; }},
+  {w:2, make(){ const c=rnd(2,9),a=rnd(1,12),b=rnd(1,12); return {q:`${xt(c)} + ${a} ${M} ${b}`, c, k:a-b, why:`${a} ${M} ${b} = ${n(a-b)}`}; }},
+  {w:2, make(){ const c=rnd(2,9),a=rnd(1,12),b=rnd(1,12); return {q:`${xt(c)} ${M} ${a} + ${b}`, c, k:-a+b, why:`${M}${a} + ${b} = ${n(b-a)}`}; }},
+  {w:1, make(){ const c=-rnd(2,9),a=rnd(1,12),b=rnd(1,12); return {q:`${xt(c)} ${M} ${a} ${M} ${b}`, c, k:-a-b, why:`${M}${a} ${M} ${b} = ${n(-a-b)}`}; }},
+];
+const exprAns = (c,k) => k===0 ? xt(c) : `${xt(c)} ${k<0?M:"+"} ${Math.abs(k)}`;
+
+const modes = {
+  neg:{ prompt:"Solve.", tip:"<b>Minus a negative = plus.</b> Plus a negative = minus.", keys:"7 8 9 ⌫ 4 5 6 − 1 2 3 0".split(" ") },
+  clt:{ prompt:"Simplify. Combine the numbers, keep the x-term.", tip:"<b>Only the plain numbers combine.</b> The x-term stays as it is. Write it like 4x − 8.", keys:"7 8 9 ⌫ 4 5 6 − 1 2 3 + 0 x".split(" ") },
+};
+
+let mode = "neg", list = [], idx = 0, tries = 0, results = [], state = "ask";
+let streak = 0, best = 0;
+try { best = +localStorage.getItem("best") || 0; } catch(e){}
+
+function newRound(){
+  const types = mode==="neg" ? negTypes : cltTypes;
+  list = []; const seen = new Set();
+  while (list.length < ROUND){ const p = pick(types).make(); if(!seen.has(p.q)){ seen.add(p.q); list.push(p); } }
+  idx = 0; results = []; show();
+}
+
+function buildKeys(){
+  const kp = $("keypad"); kp.innerHTML = "";
+  modes[mode].keys.forEach(k=>{
+    const b = document.createElement("button");
+    b.className = "key" + ("−+x⌫".includes(k) ? " op" : "");
+    b.textContent = k; b.type = "button";
+    b.addEventListener("click", ()=>{
+      if (state!=="ask") return;
+      const a = $("answer");
+      if (k==="⌫") a.value = a.value.slice(0,-1);
+      else if (k==="−" || k==="+") a.value = a.value.replace(/\s+$/,"") + (a.value.trim() ? ` ${k} ` : k);
+      else a.value += k;
+      a.classList.remove("wrong");
+    });
+    kp.appendChild(b);
+  });
+}
+
+function show(){
+  if (idx >= ROUND) return finish();
+  $("done").hidden = true; $("play").hidden = false;
+  const p = list[idx]; tries = 0; state = "ask";
+  $("roundLabel").textContent = `Problem ${idx+1} of ${ROUND}`;
+  $("prompt").textContent = modes[mode].prompt;
+  $("problem").textContent = p.q;
+  const a = $("answer"); a.value = ""; a.className = ""; a.readOnly = false;
+  $("feedback").className = "feedback"; $("feedback").innerHTML = "";
+  $("action").textContent = "Check"; $("action").className = "btn check";
+  $("tip").innerHTML = modes[mode].tip;
+  drawDots();
+}
+
+function drawDots(){
+  $("dots").innerHTML = Array.from({length:ROUND},(_,i)=>
+    `<span class="dot ${results[i]===true?"ok":results[i]===false?"miss":i===idx?"now":""}"></span>`).join("");
+}
+
+function parseInt2(s){
+  s = s.replace(/−/g,"-").replace(/\s+/g,"");
+  return /^[+-]?\d+$/.test(s) ? parseInt(s,10) : null;
+}
+function parseExpr(s){
+  s = s.toLowerCase().replace(/−/g,"-").replace(/\s+/g,"");
+  if (!/^[+-]?(\d*x|\d+)([+-](\d*x|\d+))*$/.test(s)) return null;
+  let c=0,k=0,nx=0,nk=0;
+  for (const t of s.match(/[+-]?[^+-]+/g)){
+    if (t.endsWith("x")){ let v=t.slice(0,-1); v = v===""||v==="+"?1:v==="-"?-1:parseInt(v,10); c+=v; nx++; }
+    else { k+=parseInt(t,10); nk++; }
+  }
+  return {c,k,nx,nk};
+}
+
+function check(){
+  const p = list[idx], a = $("answer"), fb = $("feedback");
+  const raw = a.value.trim();
+  if (!raw){ fb.className="feedback no"; fb.textContent="Type an answer first."; return; }
+  let ok, note = "";
+  if (mode==="neg"){
+    const v = parseInt2(raw);
+    if (v===null){ fb.className="feedback no"; fb.textContent="Enter a whole number, like −12 or 5."; return; }
+    ok = v===p.ans;
+  } else {
+    const e = parseExpr(raw);
+    if (!e){ fb.className="feedback no"; fb.textContent="Write it like 4x − 8."; return; }
+    if (e.nx>1 || e.nk>1){
+      if (e.c===p.c && e.k===p.k){ fb.className="feedback no"; fb.textContent="Right value, but combine the numbers into one."; return; }
+    }
+    ok = e.c===p.c && e.k===p.k;
+    if (!ok && e.c!==p.c) note = "Keep the x-term the same.";
+  }
+  tries++;
+  const answerText = mode==="neg" ? n(p.ans) : exprAns(p.c,p.k);
+  if (ok){
+    a.className="right"; a.readOnly = true;
+    if (tries===1){ streak++; best = Math.max(best,streak); try{localStorage.setItem("best",best);}catch(e){} }
+    results[idx] = tries===1;
+    fb.className="feedback ok";
+    fb.innerHTML = (tries===1 ? "Correct!" : "Got it!") ;
+    toNext();
+  } else if (tries===1){
+    a.className="wrong"; streak = 0;
+    fb.className="feedback no";
+    fb.textContent = "Not quite. Try once more." + (note ? " " + note : "");
+  } else {
+    a.className="wrong"; a.readOnly = true; results[idx] = false;
+    fb.className="feedback no";
+    const why = mode==="neg" ? p.why : `Numbers: ${p.why}. Answer: ${answerText}`;
+    fb.innerHTML = `The answer is ${answerText}.<span class="why">${why}</span>`;
+    toNext();
+  }
+  $("streak").textContent = streak; $("best").textContent = best;
+  drawDots();
+}
+
+function toNext(){
+  state = "next";
+  $("action").textContent = idx===ROUND-1 ? "See results" : "Next";
+  $("action").className = "btn next";
+}
+
+function finish(){
+  const score = results.filter(Boolean).length;
+  const pct = score/ROUND; const msg = pct>=.9 ? "Excellent work!" : pct>=.7 ? "Nice job!" : pct>=.5 ? "Good effort. Keep practicing." : "Let's try another round.";
+  $("score").textContent = `${score}/${ROUND}`;
+  $("scoreMsg").textContent = msg;
+  $("play").hidden = true; $("eqPlay").hidden = true; $("done").hidden = false;
+}
+$("again").onclick = ()=> mode==="eq" ? eqNewRound() : newRound();
+
+$("action").addEventListener("click", ()=> state==="ask" ? check() : (idx++, show()));
+$("answer").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); state==="ask" ? check() : (idx++, show()); } });
+$("answer").addEventListener("input", ()=> $("answer").classList.remove("wrong"));
+
+function setMode(m){
+  mode = m; ROUND = m==="neg" ? 20 : m==="eq" ? 6 : 10;
+  $("modeName").textContent = m==="neg" ? "Negative Numbers" : m==="eq" ? "Solving Equations" : "Combine Like Terms";
+  $("home").hidden = true; $("bar").hidden = false; $("card").hidden = false;
+  $("doneNote").textContent = m==="eq" ? "Problems solved with no wrong steps count toward the score." : "First-try correct answers count toward the score.";
+  if (m==="eq"){ $("play").hidden = true; eqNewRound(); return; }
+  $("eqPlay").hidden = true;
+  buildKeys(); newRound();
+}
+function goHome(){
+  $("home").hidden = false; $("bar").hidden = true; $("card").hidden = true;
+}
+$("go-neg").onclick = ()=> setMode("neg");
+$("go-clt").onclick = ()=> setMode("clt");
+$("go-eq").onclick = ()=> setMode("eq");
+$("back").onclick = goHome;
+$("best").textContent = best;
+</script>
+<script>
+/* ================= Solving equations ================= */
+const fmtLin = (a,b) => a===0 ? n(b) : xt(a) + (b>0 ? ` + ${b}` : b<0 ? ` ${M} ${-b}` : "");
+const pre = c => c===1 ? "" : c===-1 ? M : n(c);
+const sgn = () => Math.random()<.5 ? 1 : -1;
+
+function linearSteps(la,lb,ra,rb,s){
+  const out = [];
+  if (la>=ra){
+    out.push(`${fmtLin(la-ra,lb)} = ${n(rb)}`);
+    out.push(`${xt(la-ra)} = ${n(rb-lb)}`);
+  } else {
+    out.push(`${n(lb)} = ${fmtLin(ra-la,rb)}`);
+    out.push(`${n(lb-rb)} = ${xt(ra-la)}`);
+  }
+  out.push(`x = ${n(s)}`);
+  return out;
+}
+function dedupe(lines){ return lines.filter((l,i)=> i===0 || l!==lines[i-1]); }
+
+const kIn = () => Math.random()<.2 ? 1 : rnd(2,5); // x-coefficient inside parentheses, like 6(2x + 1)
+const eqTypes = [
+  // a·x + b = c(kx + d)
+  {w:3, make(){ for(;;){
+    const s=rnd(-9,9)||4, a=rnd(2,9)*(Math.random()<.2?-1:1), c=rnd(2,7)*(Math.random()<.35?-1:1), k=kIn(), d=rnd(1,9)*sgn();
+    const b=c*(k*s+d)-a*s; if(a===c*k||b===0||Math.abs(b)>40) continue;
+    const start=`${fmtLin(a,b)} = ${pre(c)}(${fmtLin(k,d)})`;
+    return {q:start, s, steps:dedupe([start, `${fmtLin(a,b)} = ${fmtLin(c*k,c*d)}`, ...linearSteps(a,b,c*k,c*d,s)])};
+  }}},
+  // a(kx + b) = c·x + d
+  {w:3, make(){ for(;;){
+    const s=rnd(-9,9)||-3, a=rnd(2,7)*(Math.random()<.35?-1:1), k=kIn(), b=rnd(1,9)*sgn(), c=rnd(2,9)*(Math.random()<.25?-1:1);
+    const d=a*(k*s+b)-c*s; if(a*k===c||d===0||Math.abs(d)>40) continue;
+    const start=`${pre(a)}(${fmtLin(k,b)}) = ${fmtLin(c,d)}`;
+    return {q:start, s, steps:dedupe([start, `${fmtLin(a*k,a*b)} = ${fmtLin(c,d)}`, ...linearSteps(a*k,a*b,c,d,s)])};
+  }}},
+  // a(kx + b) = c(jx + d)
+  {w:2, make(){ for(;;){
+    const s=rnd(-9,9)||5, a=rnd(2,7)*(Math.random()<.3?-1:1), k=kIn(), b=rnd(1,9)*sgn(), c=rnd(2,6)*(Math.random()<.3?-1:1), j=kIn();
+    if(a*k===c*j) continue; const t=a*(k*s+b); if(t%c) continue; const d=t/c-j*s;
+    if(d===0||Math.abs(d)>12) continue;
+    const start=`${pre(a)}(${fmtLin(k,b)}) = ${pre(c)}(${fmtLin(j,d)})`;
+    return {q:start, s, steps:dedupe([start, `${fmtLin(a*k,a*b)} = ${fmtLin(c*j,c*d)}`, ...linearSteps(a*k,a*b,c*j,c*d,s)])};
+  }}},
+  // (p·x + q)/m = c·x + d
+  {w:3, make(){ for(;;){
+    const s=rnd(-8,8)||2, m=rnd(2,6), p=rnd(1,9)*(Math.random()<.25?-1:1), c=rnd(1,4)*(Math.random()<.35?-1:1), d=rnd(1,9)*sgn();
+    const q=m*(c*s+d)-p*s; if(p===m*c||q===0||Math.abs(q)>40) continue;
+    const start=`(${fmtLin(p,q)})/${m} = ${fmtLin(c,d)}`;
+    return {q:start, s, steps:dedupe([start, `${fmtLin(p,q)} = ${m}(${fmtLin(c,d)})`, `${fmtLin(p,q)} = ${fmtLin(m*c,m*d)}`, ...linearSteps(p,q,m*c,m*d,s)])};
+  }}},
+];
+
+// distribute, then combine like terms on the same side: a(x + b) + cx − e = dx + g, or cx − a(x + b) …
+const termStr = ([a,b],first) => { const v=a||b, mag=Math.abs(v), body = a ? (mag===1?"":mag)+"x" : String(mag);
+  return first ? (v<0?M:"")+body : (v<0?` ${M} `:" + ")+body; };
+const joinTerms = list => list.map((t,i)=>termStr(t,i===0)).join("");
+const combineType = {w:2, make(){ for(;;){
+  const s=rnd(-8,8)||3, sig=Math.random()<.45?-1:1, a=(sig<0&&Math.random()<.2)?1:rnd(2,7), k=kIn(), b=rnd(1,9)*sgn();
+  const r=Math.random(), kind = r<.5 ? 1 : r<.75 ? 2 : 0; // 1: extra constant like 4(x + 2) − 1, 2: both, 0: extra x-term
+  const c = kind!==1 ? rnd(1,9)*(Math.random()<.35?-1:1) : 0;
+  const e = kind!==0 ? rnd(1,12)*sgn() : 0;
+  const d = Math.random()<.5 ? 0 : rnd(1,6)*(Math.random()<.3?-1:1);
+  const la=sig*a*k+c, lb=sig*a*b+e;
+  if(la===0||la===d||(d===0&&la<0&&Math.random()<.6)) continue;
+  const g=la*s+lb-d*s; if(Math.abs(g)>45) continue;
+  const grp=`${a===1?"":a}(${fmtLin(k,b)})`, groupFirst = Math.random()<.7;
+  let left, expanded;
+  const extras = []; if(c) extras.push([c,0]); if(e) extras.push([0,e]);
+  if(groupFirst){
+    left = (sig<0?M:"") + grp + extras.map(t=>termStr(t,false)).join("");
+    expanded = [[sig*a*k,0],[0,sig*a*b],...extras];
+  } else {
+    const [first,...rest] = extras.length ? extras : [[0,0]];
+    left = termStr(first,true) + (sig<0?` ${M} `:" + ") + grp + rest.map(t=>termStr(t,false)).join("");
+    expanded = [first,[sig*a*k,0],[0,sig*a*b],...rest];
+  }
+  const right = d===0 ? n(g) : fmtLin(d,g);
+  const start=`${left} = ${right}`;
+  return {q:start, s, steps:dedupe([start, `${joinTerms(expanded)} = ${right}`, `${fmtLin(la,lb)} = ${right}`, ...linearSteps(la,lb,d,g,s)])};
+}}};
+eqTypes.push(combineType);
+
+/* ---- parser: linear expressions with ( ), implicit multiplication, / by a number ---- */
+const norm = str => str.toLowerCase().replace(/[−–—]/g,"-").replace(/[×·]/g,"*").replace(/÷/g,"/").replace(/\s+/g,"");
+function tokenize(s){
+  const t=[]; let i=0;
+  while(i<s.length){ const ch=s[i];
+    if(/\d/.test(ch)){ let j=i; while(j<s.length&&/[\d.]/.test(s[j])) j++; t.push({k:"n",v:parseFloat(s.slice(i,j))}); i=j; }
+    else if(ch==="x" && /\d/.test(s[i+1]||"") && t.length){ t.push({k:"*"}); i++; }
+    else if("x+-*/()".includes(ch)){ t.push({k:ch}); i++; }
+    else throw "Use only numbers, x, + − ( ) and /.";
+  }
+  return t;
+}
+function parseSide(str){
+  const tk=tokenize(str); if(!tk.length) throw "Put something on both sides of =.";
+  let p=0; const peek=()=>tk[p], eat=k=>{ if(tk[p]&&tk[p].k===k){p++;return true} return false; };
+  const bad="Check the symbols. Something is out of place.";
+  function expr(){ const terms=[]; let s=1;
+    if(eat("-")) s=-1; else eat("+");
+    terms.push({s,n:term()});
+    while(peek()&&(peek().k==="+"||peek().k==="-")){ const g=tk[p++].k==="+"?1:-1; terms.push({s:g,n:term()}); }
+    return terms.length===1&&terms[0].s===1 ? terms[0].n : {t:"add",terms};
+  }
+  function term(){ let a=factor();
+    while(peek()){ const k=peek().k;
+      if(k==="*"){p++; a={t:"mul",a,b:factor()};}
+      else if(k==="/"){p++; a={t:"div",a,b:factor()};}
+      else if(k==="x"||k==="("||(k==="n"&&tk[p-1]&&tk[p-1].k===")")){ a={t:"mul",a,b:factor()}; }
+      else break;
+    }
+    return a;
+  }
+  function factor(){ const tok=tk[p]; if(!tok) throw bad;
+    if(tok.k==="n"){p++; return {t:"num",v:tok.v};}
+    if(tok.k==="x"){p++; return {t:"x"};}
+    if(tok.k==="("){p++; const e=expr(); if(!eat(")")) throw "A ( is missing its ).";  return {t:"paren",e};}
+    if(tok.k==="-"){p++; return {t:"neg",a:factor()};}
+    throw bad;
+  }
+  const r=expr(); if(p<tk.length) throw (tk[p].k===")" ? "There's an extra )." : bad); return r;
+}
+const groupOf = nd => nd.t==="paren" && nd.e.t==="add" ? nd.e : null;
+// evaluate to [x-coefficient, constant]; flags simulate common mistakes
+function ev(nd,f){
+  switch(nd.t){
+    case "num": return [0,nd.v];
+    case "x": return [1,0];
+    case "paren": return ev(nd.e,f);
+    case "neg": { const [a,b]=ev(nd.a,f); return [-a,-b]; }
+    case "add": { let A=0,B=0; for(const t of nd.terms){ const [a,b]=ev(t.n,f); A+=t.s*a; B+=t.s*b; } return [A,B]; }
+    case "mul": {
+      if(f.partial||f.signDist){
+        const g = groupOf(nd.b) || groupOf(nd.a), other = groupOf(nd.b) ? nd.a : nd.b;
+        if(g){ const [ca,cb]=ev(other,f);
+          if(ca===0){ let A=0,B=0;
+            g.terms.forEach((t,i)=>{ const [a,b]=ev(t.n,f); const k = i===0 ? cb : (f.partial ? 1 : -cb); A+=t.s*a*k; B+=t.s*b*k; });
+            return [A,B]; } }
+      }
+      const [a1,b1]=ev(nd.a,f), [a2,b2]=ev(nd.b,f);
+      if(a1&&a2) throw "x times x makes x². Check your multiplying.";
+      return [a1*b2+a2*b1, b1*b2];
+    }
+    case "div": {
+      const [a1,b1]=ev(nd.a,f), [a2,b2]=ev(nd.b,f);
+      if(a2) throw "Only divide by a number, not by x.";
+      if(b2===0) throw "You can't divide by 0.";
+      if(f.dropDen) return [a1,b1];
+      return [a1/b2,b1/b2];
+    }
+  }
+}
+function parseEq(raw){
+  const s=norm(raw), parts=s.split("=");
+  if(parts.length!==2) throw "Each line needs one = sign.";
+  if(!parts[0]||!parts[1]) throw "Put something on both sides of =.";
+  return {L:parseSide(parts[0]), R:parseSide(parts[1]), key:s};
+}
+function solveWith(eq,f={}){
+  const [a1,b1]=ev(eq.L,f), [a2,b2]=ev(eq.R,f), A=a1-a2, B=b2-b1;
+  if(Math.abs(A)<1e-9) return Math.abs(B)<1e-9 ? "all" : "none";
+  return B/A;
+}
+const same = (u,v) => typeof u==="number" && typeof v==="number" && Math.abs(u-v)<1e-6;
+const topTerms = nd => nd.t==="add" ? nd.terms : [{s:1,n:nd}];
+function walk(nd,fn){ fn(nd); if(nd.t==="paren") walk(nd.e,fn); else if(nd.t==="neg") walk(nd.a,fn); else if(nd.t==="add") nd.terms.forEach(t=>walk(t.n,fn)); else if(nd.a){ walk(nd.a,fn); walk(nd.b,fn); } }
+
+// name the likely mistake when a line doesn't follow from the previous one
+function diagnose(prev, wrongSol, correct){
+  const tries = [
+    [{partial:true}, "Check your distributing. The number outside multiplies every term inside the parentheses."],
+    [{signDist:true}, "Check the signs when you distribute. A negative times a negative is positive."],
+    [{dropDen:true}, "When you clear the fraction, multiply the whole other side by that number too."],
+  ];
+  for(const [f,msg] of tries){
+    try{ const v=solveWith(prev,f); if(same(v,wrongSol) && !same(v,correct)) return msg; }catch(e){}
+  }
+  // moved a term across = without changing its sign
+  try{
+    const [aL,bL]=ev(prev.L,{}), [aR,bR]=ev(prev.R,{});
+    for(const [side,terms] of [["L",topTerms(prev.L)],["R",topTerms(prev.R)]]){
+      for(const t of terms){ const [ta,tb]=ev(t.n,{}); const sa=t.s*ta, sb=t.s*tb;
+        let A,B; if(side==="L"){ A=(aL-sa)-(aR+sa); B=(bR+sb)-(bL-sb); } else { A=(aL+sa)-(aR-sa); B=(bR-sb)-(bL+sb); }
+        if(Math.abs(A)>1e-9 && same(B/A,wrongSol)) return "When a term moves to the other side, its sign changes. You're really adding or subtracting it from both sides.";
+      }
+    }
+  }catch(e){}
+  if(same(-wrongSol,correct)) return "So close. Check your signs.";
+  return "This line isn't equal to the one above. Whatever you do to one side, do to the other side too.";
+}
+
+function hintFor(eq){
+  let den=null, paren=false;
+  [eq.L,eq.R].forEach(side=>walk(side,nd=>{
+    if(nd.t==="div" && den===null){ try{ den=ev(nd.b,{})[1]; }catch(e){} }
+    if((nd.t==="mul" && (groupOf(nd.a)||groupOf(nd.b))) || (nd.t==="neg" && groupOf(nd.a))) paren=true;
+  }));
+  if(den!==null) return `Clear the fraction: multiply both sides by ${n(den)}. Put the other side in parentheses so the ${n(den)} multiplies all of it.`;
+  if(paren) return "Distribute: multiply the number outside the parentheses by every term inside. Watch the signs.";
+  for(const side of [eq.L,eq.R]){
+    const ts=topTerms(side).map(t=>ev(t.n,{}));
+    if(ts.filter(([a])=>a!==0).length>1 || ts.filter(([a,b])=>a===0&&b!==0).length>1) return "Combine like terms on each side first.";
+  }
+  const [a1,b1]=ev(eq.L,{}), [a2,b2]=ev(eq.R,{});
+  if(a1!==0 && a2!==0){
+    const small = Math.abs(a1)<=Math.abs(a2) ? a1 : a2;
+    return small>0 ? `Get x on one side. Try subtracting ${xt(small)} from both sides.` : `Get x on one side. Try adding ${xt(-small)} to both sides.`;
+  }
+  const [xa,xb,cb] = a1!==0 ? [a1,b1,b2] : [a2,b2,b1];
+  if(xb!==0) return xb>0 ? `Get the x-term alone: subtract ${xb} from both sides.` : `Get the x-term alone: add ${-xb} to both sides.`;
+  if(xa!==1) return `Divide both sides by ${n(xa)}.`;
+  return "Write it as x = a number.";
+}
+
+const pretty = raw => norm(raw).replace(/x(?=\d)/g,"·").replace(/\*/g,"·").replace(/-/g,M).replace(/([^(=*/])([+−])/g,"$1 $2 ").replace(/=/g," = ").replace(/\s+/g," ").trim();
+const isFinal = (raw,s) => { const k=norm(raw); return k===`x=${s}` || k===`${s}=x` || k===`x=+${s}`; };
+
+function renderMath(str){
+  const store=[]; let w=str;
+  const matchBack=(s,j)=>{ let d=0; for(let i=j;i>=0;i--){ if(s[i]===")") d++; else if(s[i]==="(" && --d===0) return i; } return -1; };
+  const matchFwd=(s,j)=>{ let d=0; for(let i=j;i<s.length;i++){ if(s[i]==="(") d++; else if(s[i]===")" && --d===0) return i; } return -1; };
+  const unwrap=t=>{ t=t.trim(); return t[0]==="(" && matchFwd(t,0)===t.length-1 ? t.slice(1,-1) : t; };
+  const run=/[\dx.\u0001-\u0003]/;
+  for(let guard=0; guard<20; guard++){
+    const k=w.indexOf("/"); if(k<0) break;
+    let a=k-1; while(a>=0&&w[a]===" ") a--;
+    let start; if(w[a]===")"){ start=matchBack(w,a); if(start<0) break; } else { start=a; while(start>0&&run.test(w[start-1])) start--; if(!run.test(w[a]||"")) break; }
+    let b=k+1; while(b<w.length&&w[b]===" ") b++;
+    let end; if(w[b]==="("){ end=matchFwd(w,b); if(end<0) break; } else { end=b; if(w[end]===M) end++; while(end<w.length&&run.test(w[end])) end++; end--; if(end<b) break; }
+    store.push(`<span class="frac"><span class="num">${unwrap(w.slice(start,a+1))}</span><span class="den">${unwrap(w.slice(b,end+1))}</span></span>`);
+    w = w.slice(0,start) + "\u0001" + (store.length-1) + "\u0002" + w.slice(end+1);
+  }
+  for(let i=0;i<30 && /\u0001/.test(w);i++) w=w.replace(/\u0001(\d+)\u0002/g,(_,j)=>store[+j]);
+  return w;
+}
+function updatePreview(){
+  const v=$("eqInput").value, pv=$("eqPreview");
+  if(v.includes("/")){ try{ pv.innerHTML=renderMath(pretty(v)); pv.hidden=false; }catch(e){ pv.hidden=true; } } else pv.hidden=true;
+}
+
+// keep problems short enough to fit on a phone (a stacked fraction only takes its numerator's width)
+const visLen = str => str.replace(/\(([^()]*)\)\/\d+/g,"$1").length;
+const fits = p => visLen(p.q) <= 19 && p.steps.every(l => visLen(l) <= 22);
+
+let eqList=[], eqLines=[], eqWrong=0, eqDone=false;
+
+function eqNewRound(){
+  eqList=[]; const seen=new Set();
+  const take = p => { if(!seen.has(p.q) && fits(p)){ seen.add(p.q); eqList.push(p); } };
+  while(eqList.length<2) take(combineType.make());
+  while(eqList.length<ROUND) take(pick(eqTypes).make());
+  for(let i=eqList.length-1;i>0;i--){ const j=rnd(0,i); [eqList[i],eqList[j]]=[eqList[j],eqList[i]]; }
+  idx=0; results=[]; eqShow();
+}
+function eqShow(){
+  if(idx>=ROUND) return finish();
+  $("done").hidden=true; $("eqPlay").hidden=false;
+  const p=eqList[idx]; eqLines=[]; eqWrong=0; eqDone=false;
+  $("eqLabel").textContent=`Problem ${idx+1} of ${ROUND}`;
+  $("eqProblem").innerHTML=renderMath(p.q);
+  $("eqSteps").innerHTML="";
+  const inp=$("eqInput"); inp.value=""; inp.className=""; inp.readOnly=false; $("eqPreview").hidden=true;
+  $("eqFeedback").className="feedback"; $("eqFeedback").innerHTML="";
+  $("eqWorked").hidden=true; $("eqShow").hidden=false; $("eqHint").disabled=false;
+  $("eqAction").textContent="Check step"; $("eqAction").className="btn check";
+  eqDots();
+}
+function eqDots(){
+  $("eqDots").innerHTML=Array.from({length:ROUND},(_,i)=>`<span class="dot ${results[i]===true?"ok":results[i]===false?"miss":i===idx?"now":""}"></span>`).join("");
+}
+function eqCurrent(){ return parseEq(eqLines.length ? eqLines[eqLines.length-1] : eqList[idx].q); }
+function addLine(txt, final){
+  const li=document.createElement("li"); li.innerHTML=`<span>${renderMath(pretty(txt))}</span>`; if(final) li.className="final"; $("eqSteps").appendChild(li);
+}
+function eqSay(cls,msg){ const fb=$("eqFeedback"); fb.className="feedback "+cls; fb.innerHTML=msg; }
+
+function eqCheck(){
+  const p=eqList[idx], inp=$("eqInput"), raw=inp.value.trim();
+  if(!raw) return eqSay("no","Type your next line first.");
+  let eq, prev;
+  try{ eq=parseEq(raw); prev=eqCurrent(); var sol=solveWith(eq); }
+  catch(e){ return eqSay("no", typeof e==="string" ? e : "Check the symbols. Something is out of place."); }
+  const prevKey = eqLines.length ? norm(eqLines[eqLines.length-1]) : norm(p.q);
+  if(eq.key===prevKey) return eqSay("no","That's the same as the line above. Change one thing.");
+  if(!same(sol,p.s)){
+    eqWrong++; inp.className="wrong";
+    if(sol==="all"||sol==="none") return eqSay("no","Every x-term disappeared. Check your last move.");
+    return eqSay("no", diagnose(prev, sol, p.s) + (eqWrong>=2 ? `<span class="why">Stuck? Tap Hint, or see a worked solution below.</span>` : ""));
+  }
+  inp.className="";
+  if(isFinal(raw,p.s)){
+    if(eqLines.length<2) return eqSay("no","Right answer! Now show at least two steps on the way there.");
+    addLine(raw,true); eqLines.push(raw); eqDone=true;
+    const clean = eqWrong===0; results[idx]=clean;
+    if(clean){ streak++; best=Math.max(best,streak); try{localStorage.setItem("best",best);}catch(e){} } else streak=0;
+    $("streak").textContent=streak; $("best").textContent=best;
+    eqSay("ok", clean ? `Solved with no mistakes! x = ${n(p.s)}` : `Solved! x = ${n(p.s)}`);
+    inp.value=""; updatePreview(); inp.readOnly=true; $("eqShow").hidden=true; $("eqHint").disabled=true;
+    $("eqAction").textContent = idx===ROUND-1 ? "See results" : "Next problem"; $("eqAction").className="btn next";
+    eqDots(); return;
+  }
+  addLine(raw,false); eqLines.push(raw); inp.value=""; updatePreview();
+  eqSay("ok","Good step. Keep going.");
+}
+function eqReveal(){
+  const p=eqList[idx];
+  $("eqWorked").innerHTML=`One way to solve it:<ol>${p.steps.slice(1).map(l=>`<li>${renderMath(l)}</li>`).join("")}</ol>`;
+  $("eqWorked").hidden=false; $("eqShow").hidden=true; $("eqHint").disabled=true;
+  results[idx]=false; streak=0; $("streak").textContent=0; eqDone=true; $("eqInput").readOnly=true;
+  eqSay("","Read through the steps, then try the next one.");
+  $("eqAction").textContent = idx===ROUND-1 ? "See results" : "Next problem"; $("eqAction").className="btn next";
+  eqDots();
+}
+
+(function buildEqKeys(){
+  const keys=["7","8","9","(",")","4","5","6","x","/","1","2","3","+","−","0","=","⌫","Clear","Copy"];
+  const kp=$("eqKeypad");
+  keys.forEach(k=>{
+    const b=document.createElement("button"); b.type="button"; b.textContent=k;
+    b.className="key"+("()x/+−=⌫".includes(k)?" op":"")+(k.length>1?" small":"");
+    if(k==="Copy") b.title="Copy the line above so you can change it";
+    b.addEventListener("click",()=>{
+      const a=$("eqInput"); if(a.readOnly) return;
+      if(k==="⌫") a.value=a.value.replace(/\s+$/,"").slice(0,-1).replace(/\s+$/,"");
+      else if(k==="Clear") a.value="";
+      else if(k==="Copy") a.value=pretty(eqLines.length?eqLines[eqLines.length-1]:eqList[idx].q);
+      else if(k==="+"||k==="="||(k==="−"&&/[\dx)]\s*$/.test(a.value))) a.value=a.value.replace(/\s+$/,"")+` ${k} `;
+      else a.value+=k;
+      a.classList.remove("wrong"); updatePreview();
+    });
+    kp.appendChild(b);
+  });
+})();
+$("eqAction").addEventListener("click",()=> eqDone ? (idx++, eqShow()) : eqCheck());
+$("eqInput").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); eqDone ? (idx++, eqShow()) : eqCheck(); } });
+$("eqInput").addEventListener("input",()=>{ $("eqInput").classList.remove("wrong"); updatePreview(); });
+$("eqHint").addEventListener("click",()=>{ try{ eqSay("hint", hintFor(eqCurrent())); }catch(e){ eqSay("hint","Work on one side at a time."); } });
+$("eqShow").addEventListener("click",eqReveal);
+</script>
+
+</body></html>
